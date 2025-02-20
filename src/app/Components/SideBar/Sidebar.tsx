@@ -5,7 +5,6 @@ import MenuSelection from "./MenuSelection"
 import LogoutSection from "./LogoutSection"
 import { darkModeColor, defaultColor } from "../../../../colors"
 
-
 function Sidebar() {
     const { openSideBarObject, darkModeObject } = useGlobalContextProvider();
     const { openSideBar, setOpenSideBar } = openSideBarObject;
@@ -22,24 +21,25 @@ function Sidebar() {
         return () => {
             document.removeEventListener("click", handleOutsideClicked);
         };
-    }, [openSideBar])
+    }, [openSideBar]);
 
     return (
         <div
             style={{
                 color: isDarkMode ? darkModeColor.textColor : defaultColor.textColor,
                 backgroundColor: isDarkMode
-                ? darkModeColor.background 
-                : defaultColor.background,
+                    ? darkModeColor.background 
+                    : defaultColor.background,
             }}
             ref={sideBarRef}
             className={`${!openSideBar ? " max-xl:hidden " : "fixed shadow-lg"
-                } flex-grow z-50 p-10 flex-col bg-white min-h-screen transition-all`}>
+                } flex-grow z-50 p-10 flex-col bg-white min-h-screen transition-all`}
+        >
             <LogoAndName />
             <MenuSelection />
             <LogoutSection />
         </div>
-    )
+    );
 }
 
 export default Sidebar;

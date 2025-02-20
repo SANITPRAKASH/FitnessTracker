@@ -137,7 +137,7 @@ function GlobalContextProvider({ children }: { children: ReactNode }) {
 
 
 
-    //us based date
+    //us based dat
     useEffect(() => {
 
         const fetchAllHabits = async () => {
@@ -179,9 +179,9 @@ function GlobalContextProvider({ children }: { children: ReactNode }) {
         function fetchAllAreas() {
             const allAreasData: AreaType[] = [
                 { _id: uuidv4(), icon: textToIcon("faGlobe"), name: "All" },
-                { _id: uuidv4(), icon: textToIcon("faGraduationCap"), name: "Study" },
+                { _id: uuidv4(), icon: textToIcon("faGraduationCap"), name: "Water" },
                 { _id: uuidv4(), icon: textToIcon("faDumbbell"), name: "Exercise" },
-                { _id: uuidv4(), icon: textToIcon("faBriefcase"), name: "Work" },
+                { _id: uuidv4(), icon: textToIcon("faBriefcase"), name: "Diet" },
             ];
 
             setAllAreas(allAreasData);

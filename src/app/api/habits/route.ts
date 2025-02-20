@@ -2,18 +2,11 @@ import { NextResponse } from "next/server";
 import connectToDB from "@/app/lib/connectToDB";
 import HabitsCollection from "@/app/Models/HabitSchema";
 
-import { Error } from "mongoose"
+import { Error } from "mongoose";
 
 export async function POST(req: Request) {
     try {
-        const {
-            name,
-            icon,
-            clerkUserId,
-            frequency,
-            areas,
-            completedDays
-        } = await req.json();
+        const { name, icon, clerkUserId, frequency, areas, completedDays } = await req.json();
 
         await connectToDB();
 
@@ -31,7 +24,6 @@ export async function POST(req: Request) {
         return NextResponse.json({ habit: savedHabit });
     } catch (error) {
         console.log(error);
-
         return NextResponse.json({ error: error }, { status: 400 });
     }
 }
@@ -51,12 +43,10 @@ export async function DELETE(request: any) {
     try {
         const { habitId } = await request.json();
 
-        const habitToDelete = await HabitsCollection.findOneAndDelete({
-            _id: habitId,
-        });
+        const habitToDelete = await HabitsCollection.findOneAndDelete({ _id: habitId });
 
         if (!habitToDelete) {
-            return NextResponse.json({ message: "habit not found" }, { status: 404 });
+            return NextResponse.json({ message: "Habit not found" }, { status: 404 });
         }
 
         return NextResponse.json({ message: "Habit deleted successfully" });
@@ -68,13 +58,7 @@ export async function DELETE(request: any) {
 export async function PUT(request: any) {
     try {
         const habitId = request.nextUrl.searchParams.get("habitId");
-        const {
-            name,
-            icon,
-            frequency,
-            areas,
-            completedDays,
-        } = await request.json();
+        const { name, icon, frequency, areas, completedDays } = await request.json();
 
         if (!habitId) {
             return NextResponse.json(
@@ -82,28 +66,35 @@ export async function PUT(request: any) {
                 { status: 400 }
             );
         }
+
         await connectToDB();
+
+        console.log("Received Habit Data:", { name, icon, frequency, areas, completedDays });
 
         const updatedHabit = await HabitsCollection.findOneAndUpdate(
             { _id: habitId },
-            {
-                $set: {
-                    name,
-                    icon,
-                    frequency,
-                    areas,
-                    completedDays,
-                },
-            },
-            { returnDocument: "after" }
+            { $set: { name, icon, frequency, areas, completedDays } },
+            { new: true } // ✅ Ensures the response contains updated data
         );
+
+        if (!updatedHabit) {
+            return NextResponse.json(
+                { message: "Habit not found" },
+                { status: 404 }
+            );
+        }
+
+        console.log("Updated Habit:", updatedHabit);
 
         return NextResponse.json({
             message: "Habit has been updated successfully",
-            habit: updatedHabit.value,
+            habit: updatedHabit, // ✅ Correctly returning updated document
         });
     } catch (error) {
-        return NextResponse.json({ message: "An error occurred while updating the habit" }, { status: 500 }
+        console.error("Update Habit Error:", error);
+        return NextResponse.json(
+            { message: "An error occurred while updating the habit" },
+            { status: 500 }
         );
     }
 }

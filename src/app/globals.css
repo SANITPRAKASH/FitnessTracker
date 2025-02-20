@@ -2,25 +2,32 @@
 @tailwind components;
 @tailwind utilities;
 
-
-
 :root {
   --background: #ffffff;
   --foreground: #171717;
+  --text-primary: #171717; /* Default text color */
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
     --background: #0a0a0a;
     --foreground: #ededed;
+    --text-primary: #ffffff; /* White text in dark mode */
   }
-}
-.poppins{
-  font-family: var(--font-poppins);
 }
 
 body {
-  color: var(--foreground);
+  color: var(--text-primary);
   background: var(--background);
   font-family: Arial, Helvetica, sans-serif;
+}
+
+/* ✅ Ensure text stays visible globally */
+.text-default {
+  color: var(--text-primary);
+}
+
+.text-default:focus,
+.text-default:active {
+  color: var(--text-primary) !important;
 }
