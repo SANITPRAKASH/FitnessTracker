@@ -24,6 +24,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
+       <head>
+        <meta name="google-site-verification" content="vfKdPxqjAHpt-oYq4Ig8Y9cvXVT6hNIyR6MMhc1j3bk" />
+      </head>
       <ClerkProvider>
         <GlobalContextProvider>
           <body className={inter.className}>{children}</body>
